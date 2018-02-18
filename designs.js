@@ -1,42 +1,43 @@
-var colorPicker;
-var button;
-var table;
-var height;
-var width;
-var canvas;
+let colorPicker;
+let height;
+let width;
+let chosenHex;
 
-var debug = true;
-
-// Select color input
+// Select color and size input
 colorPicker = $("#colorPicker");
-
-// Select size input
 height = $("#inputHeight");
 width = $("#inputWeight");
 
 // When size is submitted by the user, call makeGrid()
-var self = this;
+const self = this;
 
 function makeGrid(height, width) {
 
-    var innerTableHTML ="";
-    var tdHTML = "" ;
+    let innerTableHTML ="";
+    let tdHTML = "" ;
 
-    for(var i = 0; i < width; i++){
+    for(let i = 0; i < width; i++) {
         tdHTML =  tdHTML + "<td></td>";
-    }
+    };
 
-    for(var i = 0; i < height; i++){
+    for(let i = 0; i < height; i++) {
         innerTableHTML = innerTableHTML + "<tr>" + tdHTML + "</tr>";
-    }
+    };
 
     return document.getElementById("pixelCanvas").innerHTML = innerTableHTML;
+};
 
-}
-
-$("#sizePicker").submit(function(event){
+$("#sizePicker").submit(function(event) {
     event.preventDefault();
     self.makeGrid(height.val(), width.val());
 });
 
+//Pick the color
+$("#colorPicker").on("change", function() {
+    chosenHex = $("#colorPicker").val();
+});
 
+//Color background with chosen color
+$("#pixelCanvas").on("click", "td", function() {
+    $( this ).css("background-color", chosenHex);
+});
